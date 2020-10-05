@@ -5,5 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
-Artist.create(name: "The Beatles", genius_id: 586)
-
+# Artist.create(name: "The Beatles", genius_id: 586)
+Artist.seed_artist_and_songs('The Beatles')
