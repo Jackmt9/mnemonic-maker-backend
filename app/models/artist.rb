@@ -1,7 +1,7 @@
 require 'rest-client'
 class Artist < ApplicationRecord
+  has_many :songs
   @@base_genius_uri = 'https://api.genius.com'
-
     def self.seed_artist_and_songs(artist_name)
         artist = self.create_artist(artist_name)
         Song.seed_songs(artist.genius_id)
@@ -12,6 +12,6 @@ class Artist < ApplicationRecord
         response = JSON.parse(response)
         artist_id = response["response"]["hits"][0]["result"]["primary_artist"]["id"]
         artist_name = response["response"]["hits"][0]["result"]["primary_artist"]["name"]
-     Artist.create(name: artist_name, genius_id: artist_id)
+     Artist.create(id: artist_id, name: artist_name, genius_id: artist_id)
   end
 end
