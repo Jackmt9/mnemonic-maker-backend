@@ -7,3 +7,4 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 # Artist.create(name: "The Beatles", genius_id: 586)
 Artist.seed_artist_and_songs('The Beatles')
+puts "--- SEEDING COMPLETE ---"
