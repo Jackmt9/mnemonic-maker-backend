@@ -16,6 +16,11 @@ class Artist < ApplicationRecord
     end
 
     def self.match_to_lyrics(query)
-      return 'yoo'
+      return query
     end
+
+    def self.get_initials(query)
+      return query.split(' ').map(&:first).join.upcase
+    end
+
 end

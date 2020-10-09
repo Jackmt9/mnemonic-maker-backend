@@ -3,8 +3,10 @@ class ArtistsController < ApplicationController
         artists = Artist.all
         render json: artists
     end
+
     def query
-        result = Artist.match_to_lyrics(params[:query])
+        initials = Artist.get_initials(params[:query])
+        result = Artist.match_to_lyrics(initials)
         render json: result
     end
 end
