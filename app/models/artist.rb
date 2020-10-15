@@ -15,8 +15,15 @@ class Artist < ApplicationRecord
       Artist.create(name: artist_name, id: artist_id)
     end
 
-    def self.match_to_lyrics(initials, book_marked_index)
-      songs = Artist.last.songs
+    def self.match_to_lyrics(initials, book_marked_index, artist_filter = 'any')
+      if artist_filter != 'any'
+      songs = Song.all.select do |song|
+        song.artist_id == artist_filter
+      end
+      else
+        songs = Song.all
+      end
+
       initials_index = 0
       matching_phrase = ''
       songs[book_marked_index..-1].each_with_index do |song, song_index|
