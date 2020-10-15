@@ -1,5 +1,6 @@
 class Song < ApplicationRecord
     belongs_to :artist
+    # @@base_genius_uri = 'https://api.genius.com'
 
     def self.seed_songs(artist_id)
         page_number=1
@@ -30,13 +31,21 @@ class Song < ApplicationRecord
       lyrics = parsed_data.css('div.lyrics').text
     end
 
-    def self.get_youtube_url(song_url)
-      response = RestClient.get(song_url)
-      parsed_data = Nokogiri::HTML.parse(response)
-      links = parsed_data.css('a')
-      ytps = links.select{|link| link['href'] }
-    # ytps_3 = ytps.select {|link| link.values[0].include?('youtube')}    
-    # video = ytps_3[1].values[0]
-# byebug
+    def self.get_youtube_url(song_id)
+        byebug
+        response = RestClient.get("#{@@base_genius_uri}/songs/#{song_id}?access_token=#{ENV['GENIUS_API_KEY']}")
+        response = JSON.parse(response)
+        if response['response']['song']['media'] && response['meta'] == 200
+            response['response']['song']['media'].each do |media|
+                if media['provider'] == 'youtube'
+                    return media['url']
+                end
+            end
+            return false
+        else
+            return false
+        end
+        byebug
     end
+
 end

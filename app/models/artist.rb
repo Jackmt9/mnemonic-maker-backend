@@ -1,6 +1,6 @@
 class Artist < ApplicationRecord
   has_many :songs
-  @@base_genius_uri = 'https://api.genius.com'
+
     def self.seed_artist_and_songs(artist_name)
       artist = self.create_artist(artist_name)
       puts "Searching for songs by #{artist_name}..."
@@ -17,15 +17,16 @@ class Artist < ApplicationRecord
 
     def self.match_to_lyrics(initials, book_marked_index, artist_filter = 'any')
       if artist_filter != 'any'
-      songs = Song.all.select do |song|
-        song.artist_id == artist_filter
-      end
+        songs = Song.all.select do |song|
+          song.artist_id == artist_filter
+        end
       else
         songs = Song.all
       end
 
       initials_index = 0
       matching_phrase = ''
+
       songs[book_marked_index..-1].each_with_index do |song, song_index|
         lyrics = song['lyrics'].split(' ' || '\n')
         # splitting along '/n' will allow contiguous matches across multiple lines
@@ -37,14 +38,17 @@ class Artist < ApplicationRecord
             book_marked_index+=1
             print "bookmark ", book_marked_index
             print "regular ", song_index
-           url = Song.get_youtube_url(song.url)
-            return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index}
+            byebug
+            youtube_url = Song.get_youtube_url(song['id'])
+            # ^ add to song object instead
+            return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index, youtube_url: youtube_url}
           else
             initials_index = 0
             matching_phrase = ''
           end
         end
       end
+
       return {error: "No matching text"}
     end
 
