@@ -28,6 +28,7 @@ class Artist < ApplicationRecord
             initials_index += 1
             matching_phrase += "#{word} "
           elsif initials_index == initials.length
+           url = Song.get_youtube_url(song.url)
             return {matching_phrase: matching_phrase, song: song}
           else
             initials_index = 0

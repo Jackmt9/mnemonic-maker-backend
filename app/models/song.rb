@@ -29,4 +29,14 @@ class Song < ApplicationRecord
       parsed_data = Nokogiri::HTML.parse(response)
       lyrics = parsed_data.css('div.lyrics').text
     end
+
+    def self.get_youtube_url(song_url)
+      response = RestClient.get(song_url)
+      parsed_data = Nokogiri::HTML.parse(response)
+      links = parsed_data.css('a')
+      ytps = links.select{|link| link['href'] }
+    # ytps_3 = ytps.select {|link| link.values[0].include?('youtube')}    
+    # video = ytps_3[1].values[0]
+# byebug
+    end
 end
