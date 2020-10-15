@@ -6,7 +6,8 @@ class ArtistsController < ApplicationController
 
     def query
         initials = Artist.get_initials(params[:query])
-        match_info = Artist.match_to_lyrics(initials)
+        bookmark = params[:bookmark].to_i
+        match_info = Artist.match_to_lyrics(initials, bookmark)
         # ^^ we need all song info, along with highlighted lyrics
         render json: match_info
     end

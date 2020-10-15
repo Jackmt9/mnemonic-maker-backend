@@ -25,7 +25,7 @@ class Song < ApplicationRecord
     end
 
     def self.get_lyrics(song_url)
-      response =RestClient.get(song_url)
+      response = RestClient.get(song_url)
       parsed_data = Nokogiri::HTML.parse(response)
       lyrics = parsed_data.css('div.lyrics').text
     end

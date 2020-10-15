@@ -15,12 +15,11 @@ class Artist < ApplicationRecord
       Artist.create(name: artist_name, id: artist_id)
     end
 
-    def self.match_to_lyrics(initials)
+    def self.match_to_lyrics(initials, book_marked_index)
       songs = Artist.last.songs
       initials_index = 0
       matching_phrase = ''
-
-      songs.each do |song|
+      songs[book_marked_index..-1].each_with_index do |song, song_index|
         lyrics = song['lyrics'].split(' ' || '\n')
         # splitting along '/n' will allow contiguous matches across multiple lines
         lyrics.each_with_index do |word, index|
@@ -28,8 +27,11 @@ class Artist < ApplicationRecord
             initials_index += 1
             matching_phrase += "#{word} "
           elsif initials_index == initials.length
+            book_marked_index+=1
+            print "bookmark ", book_marked_index
+            print "regular ", song_index
            url = Song.get_youtube_url(song.url)
-            return {matching_phrase: matching_phrase, song: song}
+            return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index}
           else
             initials_index = 0
             matching_phrase = ''
