@@ -38,10 +38,8 @@ class Artist < ApplicationRecord
             book_marked_index+=1
             print "bookmark ", book_marked_index
             print "regular ", song_index
-            byebug
-            youtube_url = Song.get_youtube_url(song['id'])
-            # ^ add to song object instead
-            return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index, youtube_url: youtube_url}
+            youtube_id = Song.get_youtube_url(song['full_title'])
+            return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index, youtube_id: youtube_id}
           else
             initials_index = 0
             matching_phrase = ''

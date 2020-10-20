@@ -31,21 +31,13 @@ class Song < ApplicationRecord
       lyrics = parsed_data.css('div.lyrics').text
     end
 
-    def self.get_youtube_url(song_id)
-        byebug
-        response = RestClient.get("#{@@base_genius_uri}/songs/#{song_id}?access_token=#{ENV['GENIUS_API_KEY']}")
-        response = JSON.parse(response)
-        if response['response']['song']['media'] && response['meta'] == 200
-            response['response']['song']['media'].each do |media|
-                if media['provider'] == 'youtube'
-                    return media['url']
-                end
-            end
-            return false
-        else
-            return false
-        end
-        byebug
+    def self.get_youtube_url(full_title)
+        youtube_search_page = "https://www.youtube.com/results?search_query=#{full_title}"
+        response = RestClient.get(URI.encode(youtube_search_page))
+        parsed_data = Nokogiri::HTML.parse(response) 
+        youtube_id = parsed_data.css('body').to_s.split("watch?v=")[1].split("\"")[0]
+        # youtube_link = "https://www.youtube.com/watch?v=#{youtube_id}&feature=emb_rel_err"
+        return youtube_id
     end
 
 end
