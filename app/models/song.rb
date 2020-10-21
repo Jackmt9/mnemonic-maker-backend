@@ -31,7 +31,7 @@ class Song < ApplicationRecord
       lyrics = parsed_data.css('div.lyrics').text
     end
 
-    def self.get_youtube_url(full_title)
+    def self.get_youtube_id(full_title)
         youtube_search_page = "https://www.youtube.com/results?search_query=#{full_title}"
         response = RestClient.get(URI.encode(youtube_search_page))
         parsed_data = Nokogiri::HTML.parse(response) 

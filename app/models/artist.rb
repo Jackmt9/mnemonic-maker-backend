@@ -14,44 +14,74 @@ class Artist < ApplicationRecord
       artist_name = response["response"]["hits"][0]["result"]["primary_artist"]["name"]
       Artist.create(name: artist_name, id: artist_id)
     end
-
-    def self.match_to_lyrics(initials, book_marked_index, artist_filter = 'any')
+def self.make_initials_hash(initials_array)
+  initials_hash = {}
+  initials_array.each do |initial|
+    if initials_hash[initial]
+    initials_hash[initial] += 1
+    else 
+      initials_hash[initial] = 1
+    end
+  end
+  return initials_hash
+end
+    def self.match_to_lyrics(initials, book_marked_index, artist_filter = 'any', order)
+      initials_array = initials.split('')
+      initials_hash = self.make_initials_hash(initials_array)
       if artist_filter != 'any'
-        songs = Song.all.select do |song|
-          song.artist_id == artist_filter
-        end
+          artist = Artist.find(artist_filter)
+          songs = artist.songs
       else
         songs = Song.all
       end
-
       initials_index = 0
       matching_phrase = ''
-
+      if !order
+       initials_hash_2 = initials_hash.clone 
+      end
+      
       songs[book_marked_index..-1].each_with_index do |song, song_index|
         lyrics = song['lyrics'].split(' ' || '\n')
+        if !order
+          # order_does_not_matter_initials_array = initials_array.clone
+          lyrics.each_with_index do |word, index|
+            if initials_hash_2[word[0].upcase] && initials_hash_2[word[0].upcase] > 0 && initials_index != initials.length 
+            initials_index += 1
+            # index = order_does_not_matter_initials_array.index(word[0])
+            # order_does_not_matter_initials_array.delete_at(index)
+            initials_hash_2[word[0].upcase] -= 1
+            matching_phrase += "#{word} "
+            elsif initials_index == initials.length 
+            book_marked_index+=1
+            youtube_id = Song.get_youtube_id(song['full_title'])
+            return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index, youtube_id: youtube_id}
+            else
+              initials_index = 0
+              initials_hash_2 = initials_hash.clone 
+            matching_phrase = ''
+            end
+          end
+        elsif order 
         # splitting along '/n' will allow contiguous matches across multiple lines
-        lyrics.each_with_index do |word, index|
-          if word[0].upcase === initials[initials_index] && initials_index != initials.length
+          lyrics.each_with_index do |word, index|
+            if word[0].upcase === initials[initials_index] && initials_index != initials.length
             initials_index += 1
             matching_phrase += "#{word} "
-          elsif initials_index == initials.length
+            elsif initials_index == initials.length
             book_marked_index+=1
-            print "bookmark ", book_marked_index
-            print "regular ", song_index
-            youtube_id = Song.get_youtube_url(song['full_title'])
+            youtube_id = Song.get_youtube_id(song['full_title'])
             return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index, youtube_id: youtube_id}
-          else
+            else
             initials_index = 0
             matching_phrase = ''
+            end
           end
         end
       end
-
       return {error: "No matching text"}
     end
 
     def self.get_initials(query)
       return query.split(' ').map(&:first).join.upcase
     end
-
 end

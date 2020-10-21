@@ -13,8 +13,13 @@ class ArtistsController < ApplicationController
         else
             artist_id = 'any'
         end
-        
-        match_info = Artist.match_to_lyrics(initials, bookmark, artist_id)
+
+        if params[:order] == "true"
+            order = true
+        else
+            order = false
+        end
+        match_info = Artist.match_to_lyrics(initials, bookmark, artist_id, order)
         # ^^ we need all song info, along with highlighted lyrics
         render json: match_info
     end
