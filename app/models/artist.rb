@@ -41,6 +41,9 @@ end
       end
       
       songs[book_marked_index..-1].each_with_index do |song, song_index|
+        if song['title'].split(' ').include?('script' || 'Script')
+          next 
+        end
         lyrics = song['lyrics'].split(' ' || '\n')
         if !order
           # order_does_not_matter_initials_array = initials_array.clone
@@ -52,6 +55,7 @@ end
             initials_hash_2[word[0].upcase] -= 1
             matching_phrase += "#{word} "
             elsif initials_index == initials.length 
+               
             book_marked_index+=1
             youtube_id = Song.get_youtube_id(song['full_title'])
             return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index, youtube_id: youtube_id}
@@ -64,6 +68,7 @@ end
         elsif order 
         # splitting along '/n' will allow contiguous matches across multiple lines
           lyrics.each_with_index do |word, index|
+            # byebug 
             if word[0].upcase === initials[initials_index] && initials_index != initials.length
             initials_index += 1
             matching_phrase += "#{word} "
