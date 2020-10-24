@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  playlist: one
+  song: one
+  input_phrase: MyString
+  matching_phrase: MyString
+
+two:
+  playlist: two
+  song: two
+  input_phrase: MyString
+  matching_phrase: MyString

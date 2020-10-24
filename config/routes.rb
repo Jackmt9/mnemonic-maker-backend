@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  resources :bookmarks
+  resources :playlists
+  resources :users
   # resources :songs
   # resources :artists
   get '/query/:query/:bookmark/artist/:artist/order/:order', to: 'artists#query'
