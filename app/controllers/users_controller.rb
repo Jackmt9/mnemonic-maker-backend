@@ -3,11 +3,11 @@ class UsersController < ApplicationController
     before_action :authorized, only: [:stay_logged_in]
   
     def create
-      @user = User.create(user_params())
+      @user = User.create(user_params)
       if @user.valid?
         wristband = encode_token({user_id: @user.id})
         render json: {
-          user: UserSerializer.new(@user),
+          user: @user,
           token: wristband
         }
       else
@@ -16,13 +16,12 @@ class UsersController < ApplicationController
     end
   
   
-  
     def login
       @user = User.find_by(username: params[:username])
       if @user && @user.authenticate(params[:password])
         wristband = encode_token({user_id: @user.id})
         render json: {
-          user: UserSerializer.new(@user),
+          user: @user,
           token: wristband
         }
       else
@@ -36,7 +35,7 @@ class UsersController < ApplicationController
       # @user comes from the before_action
       wristband = encode_token({user_id: @user.id})
       render json: {
-        user: UserSerializer.new(@user),
+        user: @user,
         token: wristband
       }
     end
@@ -46,7 +45,7 @@ class UsersController < ApplicationController
     private
   
     def user_params
-      params.permit(:username, :password)
+      params.permit(:email, :password, :first_name, :last_name)
     end
   
   
