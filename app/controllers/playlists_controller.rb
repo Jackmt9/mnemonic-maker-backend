@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-    before_action :authorized, only: [:create, :index]
+    before_action :authorized, only: [:create]
 
     def create
         @playlist = Playlist.create(playlist_params, user: @user)
