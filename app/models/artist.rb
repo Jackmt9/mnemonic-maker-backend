@@ -62,7 +62,7 @@ class Artist < ApplicationRecord
           youtube_id = Song.get_youtube_id(song['full_title'])
           song = song.attributes
           song['youtubeId'] = youtube_id
-          return {matchingPhrase: matching_phrase, song: song, currentSongIndex: book_marked_index + song_index}
+          return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index}
           else
             initials_index = 0
             initials_hash_2 = initials_hash.clone 
@@ -81,7 +81,7 @@ class Artist < ApplicationRecord
           youtube_id = Song.get_youtube_id(song['full_title'])
           song = song.attributes
           song['youtubeId'] = youtube_id
-          return {matchingPhrase: matching_phrase, song: song, currentSongIndex: book_marked_index + song_index}
+          return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index}
           else
           initials_index = 0
           matching_phrase = ''

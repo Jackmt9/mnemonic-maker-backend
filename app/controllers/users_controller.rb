@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       if @user && @user.authenticate(params[:password])
         wristband = encode_token({user_id: @user.id})
         render json: {
-          user: {id: @user.id, firstName: @user.first_name, lastName: @user.last_name, email: @user.email},
+          user: {id: @user.id, first_name: @user.first_name, last_name: @user.last_name, email: @user.email},
           token: wristband
         }
       else
@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       # @user comes from the before_action
       wristband = encode_token({user_id: @user.id})
       render json: {
-        user: {id: @user.id, firstName: @user.first_name, lastName: @user.last_name, email: @user.email},
+        user: {id: @user.id, first_name: @user.first_name, last_name: @user.last_name, email: @user.email},
         token: wristband
       }
     end
