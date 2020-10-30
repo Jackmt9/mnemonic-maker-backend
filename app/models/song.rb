@@ -20,7 +20,7 @@ class Song < ApplicationRecord
                 puts "Seeding #{song['title']}..."
                 song_url = song['url']
                 lyrics = self.get_lyrics(song_url)
-                Song.create(fullTitle: song['full_title'], id: (artist_id.to_s + song['id'].to_s).to_i, lyrics: lyrics, artistId: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
+                Song.create(full_title: song['full_title'], id: (artist_id.to_s + song['id'].to_s).to_i, lyrics: lyrics, artist_id: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
             end
         end
     end

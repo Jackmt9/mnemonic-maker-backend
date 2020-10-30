@@ -60,7 +60,9 @@ class Artist < ApplicationRecord
               
           book_marked_index+=1
           youtube_id = Song.get_youtube_id(song['full_title'])
-          return {matchingPhrase: matching_phrase, song: song, currentSongIndex: book_marked_index + song_index, youtubeId: youtube_id}
+          song = song.attributes
+          song['youtubeId'] = youtube_id
+          return {matchingPhrase: matching_phrase, song: song, currentSongIndex: book_marked_index + song_index}
           else
             initials_index = 0
             initials_hash_2 = initials_hash.clone 
