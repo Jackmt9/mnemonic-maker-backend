@@ -61,7 +61,7 @@ class Artist < ApplicationRecord
           book_marked_index+=1
           youtube_id = Song.get_youtube_id(song['full_title'])
           song = song.attributes
-          song['youtubeId'] = youtube_id
+          song['youtube_id'] = youtube_id
           return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index}
           else
             initials_index = 0
@@ -80,7 +80,7 @@ class Artist < ApplicationRecord
           book_marked_index+=1
           youtube_id = Song.get_youtube_id(song['full_title'])
           song = song.attributes
-          song['youtubeId'] = youtube_id
+          song['youtube_id'] = youtube_id
           return {matching_phrase: matching_phrase, song: song, current_song_index: book_marked_index + song_index}
           else
           initials_index = 0
