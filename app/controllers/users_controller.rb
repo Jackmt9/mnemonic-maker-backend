@@ -35,7 +35,7 @@ class UsersController < ApplicationController
       # @user comes from the before_action
       wristband = encode_token({user_id: @user.id})
       render json: {
-        user: @user,
+        user: {id: @user.id, firstName: @user.first_name, lastName: @user.last_name, email: @user.email},
         token: wristband
       }
     end
