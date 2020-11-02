@@ -6,6 +6,7 @@ class UsersController < ApplicationController
       @user = User.create(user_params)
       if @user.valid?
         wristband = encode_token({user_id: @user.id})
+        Playlist.create_favorites(@user.id)
         render json: {
           user: @user,
           token: wristband

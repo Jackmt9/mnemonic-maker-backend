@@ -17,6 +17,7 @@ ActiveRecord::Schema.define(version: 2020_10_24_232834) do
 
   create_table "artists", force: :cascade do |t|
     t.string "name"
+    t.integer "genius_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -42,6 +43,7 @@ ActiveRecord::Schema.define(version: 2020_10_24_232834) do
 
   create_table "songs", force: :cascade do |t|
     t.integer "artist_id"
+    t.integer "genius_id"
     t.string "lyrics"
     t.string "full_title"
     t.string "url"

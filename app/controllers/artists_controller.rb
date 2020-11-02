@@ -5,6 +5,7 @@ class ArtistsController < ApplicationController
     end
 
     def query
+        full_query = params[:query]
         initials = Artist.get_initials(params[:query])
         bookmark = params[:bookmark].to_i
         if Artist.find_by(name: params[:artist])
@@ -17,7 +18,7 @@ class ArtistsController < ApplicationController
         else
             order = false
         end 
-        match_info = Artist.match_to_lyrics(initials, bookmark, artist_id, order)
+        match_info = Artist.match_to_lyrics(initials, bookmark, artist_id, order, full_query)
         render json: match_info
     end
 end
