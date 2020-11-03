@@ -5,7 +5,6 @@ class PlaylistsController < ApplicationController
   
 
     def create
-
         @playlist = Playlist.create(playlist_params, user: @user)
 
         if @playlist.valid?
@@ -20,9 +19,13 @@ class PlaylistsController < ApplicationController
     end
 
     def index
-        render json: { playlists: @user.playlists }
+        render json: @user.playlists.all 
     end
 
+    def show
+        # Playlist.find()
+
+    end
     private
   
     def playlist_params
