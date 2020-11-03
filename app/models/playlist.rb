@@ -1,6 +1,7 @@
 class Playlist < ApplicationRecord
   belongs_to :user
-
+  has_many :bookmarks
+  
     def self.create_favorites(user_id)
          @playlist = Playlist.create(title: "Favorites", user_id: user_id)
         if @playlist.valid?
