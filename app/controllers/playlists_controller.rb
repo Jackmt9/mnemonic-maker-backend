@@ -1,5 +1,5 @@
 class PlaylistsController < ApplicationController
-    before_action :authorized, only: [:create, :index]
+    before_action :authorized, only: [:create, :index, :show]
 
 
   
@@ -13,7 +13,7 @@ class PlaylistsController < ApplicationController
             }
         else
             render json: {
-                message: "Failed to create new playlist"
+                message: "Failed to create new playlist."
             }
         end
     end
@@ -23,9 +23,19 @@ class PlaylistsController < ApplicationController
     end
 
     def show
-        # Playlist.find()
+        @playlist = @user.playlists.find(params[:id])
 
+        if @playlist.valid?
+            render json: {
+                playlist: @playlist
+            }
+        else
+            render json: {
+                message: "Unable to find playlist."
+            }
+        end
     end
+
     private
   
     def playlist_params
