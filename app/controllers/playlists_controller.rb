@@ -27,7 +27,7 @@ class PlaylistsController < ApplicationController
 
         if @playlist.valid?
             render json: {
-                playlist: @playlist
+                playlist: @playlist.bookmarks
             }
         else
             render json: {
