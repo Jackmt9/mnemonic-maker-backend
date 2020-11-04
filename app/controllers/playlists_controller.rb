@@ -23,13 +23,17 @@ class PlaylistsController < ApplicationController
     end
 
     def show
-        @playlist = @user.playlists.find(params[:id])
-
-        if @playlist.valid?
-            render json: {
-                playlist: @playlist.bookmarks
+        begin 
+            @playlist = @user.playlists.find(params[:id])
+            # if @playlist.valid?
+                render json: { playlist: {
+                    id: @playlist.id,
+                    title: @playlist.title,
+                    bookmarks: @playlist.bookmarks
+        }
             }
-        else
+            # end
+        rescue
             render json: {
                 message: "Unable to find playlist."
             }
