@@ -15,6 +15,11 @@ class BookmarksController < ApplicationController
         render json: { bookmarks: @user.bookmarks }
     end
 
+    def tune_to_tube
+        # byebug
+        youtube_id = Song.get_youtube_id(params[:full_title])
+        render json: {youtube_id: youtube_id}
+    end
 
     private
   
