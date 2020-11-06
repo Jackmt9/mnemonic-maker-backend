@@ -2,12 +2,11 @@ class PlaylistsController < ApplicationController
     before_action :authorized, only: [:create, :index, :show]
 
 
-  
-
     def create
-        @playlist = Playlist.create(playlist_params, user: @user)
-
+        # byebug
+        @playlist = Playlist.create(title: playlist_params["title"], description: playlist_params["description"], user: @user)
         if @playlist.valid?
+            print 'yeah boiiii'
             render json: {
                 message: "Playlist created."
             }
@@ -43,7 +42,7 @@ class PlaylistsController < ApplicationController
     private
   
     def playlist_params
-      params.permit(:title)
+      params.permit(:title, :description)
     end
 
 end
