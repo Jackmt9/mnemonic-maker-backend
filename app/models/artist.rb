@@ -43,7 +43,7 @@ class Artist < ApplicationRecord
     end
     
     songs[current_song_index..-1].each_with_index do |song, song_index|
-      if song['title'].split(' ').include?('script' || 'Script')
+      if song['title'].split(' ').include?('script') || song['title'].split(' ').include?('Script')
         next 
       end
       lyrics = song['lyrics'].split(' ' || '\n')

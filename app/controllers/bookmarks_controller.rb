@@ -2,6 +2,7 @@ class BookmarksController < ApplicationController
     before_action :authorized, only: [:create, :index]
 
     def create
+        
         @bookmark = Bookmark.create(bookmark_params)
 
         if @bookmark.valid?
@@ -16,7 +17,6 @@ class BookmarksController < ApplicationController
     end
 
     def tune_to_tube
-        # byebug
         youtube_id = Song.get_youtube_id(params[:full_title])
         render json: {youtube_id: youtube_id}
     end
@@ -24,7 +24,7 @@ class BookmarksController < ApplicationController
     private
   
     def bookmark_params
-      params.permit(:playlist_id, :song_id, :input_phrase, :matching_phrase)
+      params.require(:bookmark).permit(:playlist_id, :song_id, :input_phrase, :matching_phrase)
     end
 
 end
