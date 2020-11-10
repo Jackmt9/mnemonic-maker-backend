@@ -4,7 +4,7 @@ class Song < ApplicationRecord
 
     def self.seed_songs(artist_id)
         page_number=1
-        page_cap = 20
+        page_cap = 2
         while(page_number <= page_cap && !!page_number) do
             response = RestClient.get("https://genius.com/api/artists/#{artist_id}/songs?page=#{page_number}&sort=popularity")
             response = JSON.parse(response)

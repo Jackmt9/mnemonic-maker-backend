@@ -1,10 +1,13 @@
 class Artist < ApplicationRecord
   has_many :songs
 
-  def self.seed_artist_and_songs(artist_name)
-    artist = self.create_artist(artist_name)
-    puts "Searching for songs by #{artist_name}..."
-    Song.seed_songs(artist.id)
+  def self.seed_artist_and_songs(artists)
+    artists.each do |artist|
+      new_artist = self.create_artist(artist)
+      puts "Created entry for #{new_artist.name}..."
+      puts "Searching for songs by #{artist}..."
+      Song.seed_songs(new_artist.id)
+    end
   end
 
   def self.create_artist(artist_name)
