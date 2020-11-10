@@ -1,0 +1,2 @@
+class SnippetTanksController < ApplicationController
+end

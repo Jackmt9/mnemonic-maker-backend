@@ -7,6 +7,9 @@ class Artist < ApplicationRecord
       return true
     end
     artist = self.create_artist(artist_name, genre)
+    if artist == "already have that artist"
+      return true
+    end
     puts "Searching for songs by #{artist_name}..."
     Song.seed_songs(artist.id)
   end
@@ -16,6 +19,9 @@ class Artist < ApplicationRecord
     response = JSON.parse(response)
     artist_id = response["response"]["hits"][0]["result"]["primary_artist"]["id"]
     artist_name = response["response"]["hits"][0]["result"]["primary_artist"]["name"]
+    if Artist.find_by(name: artist_name)
+      return "already have that artist"
+    end
     Artist.create(name: artist_name, id: artist_id, genre: genre)
   end
 
@@ -63,6 +69,7 @@ class Artist < ApplicationRecord
           elsif initials_index == initials.length 
           # byebug
           current_song_index+=1
+
           # byebug
           youtube_id = Song.get_youtube_id(song['full_title'])
           song = song.attributes

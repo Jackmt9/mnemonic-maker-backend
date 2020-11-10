@@ -19,16 +19,20 @@ class Song < ApplicationRecord
 
     def self.create_songs(songs, artist_id)
         songs.each do |song|
-            
             # if Artist.songs.all.find(artist_id: artist_id)
             #     next
             # end
             print "song id is #{song["id"]} "
-            if !Song.find_by(title: song['title']) && !Song.find(song["id"])
+            if !Song.find_by(id: song["id"])
+                begin
                 puts "Seeding #{song['title']}..."
                 song_url = song['url']
                 lyrics = self.get_lyrics(song_url)
                 Song.create(full_title: song['full_title'], lyrics: lyrics, artist_id: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
+                rescue
+                    puts "rescued!"
+                    next
+                end
             end
         end
     end

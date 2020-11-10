@@ -1,10 +1,12 @@
 Rails.application.routes.draw do
+  resources :snippet_tanks
   resources :bookmarks, only: [:create]
   resources :playlists
   resources :songs
 
 
   get '/query/:query/:current_song_index/artist/:artist/order/:order', to: 'artists#query'
+  get '/query/:query/:current_song_index/artist/:artist/order/:order/perfect', to: 'lyric_snippets#query'
   # current_song_index holds the place of the last search value exported, so that it can find another match for the same query.
   get '/stay_logged_in', to: 'users#stay_logged_in'
   # post '/stay_logged_in', to: 'users#stay_logged_in'
