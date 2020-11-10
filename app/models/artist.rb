@@ -1,18 +1,22 @@
 class Artist < ApplicationRecord
   has_many :songs
 
-  def self.seed_artist_and_songs(artist_name)
-    artist = self.create_artist(artist_name)
+  def self.seed_artist_and_songs(artist_name, genre)
+    if Artist.find_by(name: artist_name)
+      print "we already have this artist bro"
+      return true
+    end
+    artist = self.create_artist(artist_name, genre)
     puts "Searching for songs by #{artist_name}..."
     Song.seed_songs(artist.id)
   end
 
-  def self.create_artist(artist_name)
+  def self.create_artist(artist_name, genre)
     response = RestClient.get("#{@@base_genius_uri}/search?q=#{artist_name}&access_token=#{ENV['GENIUS_API_KEY']}")
     response = JSON.parse(response)
     artist_id = response["response"]["hits"][0]["result"]["primary_artist"]["id"]
     artist_name = response["response"]["hits"][0]["result"]["primary_artist"]["name"]
-    Artist.create(name: artist_name, id: artist_id)
+    Artist.create(name: artist_name, id: artist_id, genre: genre)
   end
 
   def self.make_initials_hash(initials_array)
@@ -98,4 +102,31 @@ class Artist < ApplicationRecord
   def self.get_initials(query)
     return query.split(' ').map(&:first).join.upcase
   end
+
+  def self.get_response_status(artist_name)
+  response = RestClient.get("#{@@base_genius_uri}/search?q=#{artist_name}&access_token=#{ENV['GENIUS_API_KEY']}")
+  response = JSON.parse(response)
+  status = response["meta"]["status"]
+end
+
+  def self.seed_billboard
+    artist_array = []
+    page_url = "https://www.billboard.com/charts/year-end/2019/top-artists"
+    page = Nokogiri::HTML(open(page_url))
+        i = 0
+        page_array = page.css('div.chart-details').css('article.ye-chart-item').to_a
+        while i < page_array.length do
+      artist_array.push(page_array[i].css('div.ye-chart-item__title').text.split("\n\n")[1])
+      i += 1
+        end
+
+        artist_array.each do |artist_name| 
+          status = self.get_response_status(artist_name)
+          if status == 200
+            self.seed_artist_and_songs(artist_name, "billboard top 100")
+        end
+        # response = JSON.parse(response)
+      end
+  end
+
 end
