@@ -1,0 +1,2 @@
+class LyricSnippet < ApplicationRecord
+end

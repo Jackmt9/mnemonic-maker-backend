@@ -10,16 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_06_090446) do
+ActiveRecord::Schema.define(version: 2020_11_10_084428) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "artists", force: :cascade do |t|
     t.string "name"
-    t.integer "genius_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "genre"
   end
 
   create_table "bookmarks", force: :cascade do |t|
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 2020_11_06_090446) do
 
   create_table "songs", force: :cascade do |t|
     t.integer "artist_id"
-    t.integer "genius_id"
     t.string "lyrics"
     t.string "full_title"
     t.string "url"
