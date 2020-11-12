@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_10_113034) do
+ActiveRecord::Schema.define(version: 2020_11_11_055440) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -36,9 +36,9 @@ ActiveRecord::Schema.define(version: 2020_11_10_113034) do
   create_table "lyric_snippets", force: :cascade do |t|
     t.string "snippet"
     t.integer "song_id"
-    t.integer "length"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.integer "snippet_tank_id"
   end
 
   create_table "playlists", force: :cascade do |t|
@@ -51,7 +51,6 @@ ActiveRecord::Schema.define(version: 2020_11_10_113034) do
   end
 
   create_table "snippet_tanks", force: :cascade do |t|
-    t.text "snippets"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
