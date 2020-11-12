@@ -106,6 +106,7 @@ class Artist < ApplicationRecord
       end
 
       if matching_info
+          matching_info["input_phrase"] = query
           return matching_info
       end
     end
