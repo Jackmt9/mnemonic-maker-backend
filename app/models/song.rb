@@ -1,6 +1,5 @@
 class Song < ApplicationRecord
     belongs_to :artist
-    # @@base_genius_uri = 'https://api.genius.com'
 
     def self.seed_songs(artist_id)
         page_number=1
@@ -36,7 +35,6 @@ class Song < ApplicationRecord
         response = RestClient.get(URI.encode(youtube_search_page))
         parsed_data = Nokogiri::HTML.parse(response) 
         youtube_id = parsed_data.css('body').to_s.split("watch?v=")[1].split("\"")[0]
-        # youtube_link = "https://www.youtube.com/watch?v=#{youtube_id}&feature=emb_rel_err"
         return youtube_id
     end
 

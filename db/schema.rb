@@ -17,7 +17,6 @@ ActiveRecord::Schema.define(version: 2020_11_06_090446) do
 
   create_table "artists", force: :cascade do |t|
     t.string "name"
-    t.integer "genius_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end
@@ -27,6 +26,7 @@ ActiveRecord::Schema.define(version: 2020_11_06_090446) do
     t.bigint "song_id", null: false
     t.string "input_phrase"
     t.string "matching_phrase"
+    t.integer "youtube_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["playlist_id"], name: "index_bookmarks_on_playlist_id"
@@ -44,7 +44,6 @@ ActiveRecord::Schema.define(version: 2020_11_06_090446) do
 
   create_table "songs", force: :cascade do |t|
     t.integer "artist_id"
-    t.integer "genius_id"
     t.string "lyrics"
     t.string "full_title"
     t.string "url"

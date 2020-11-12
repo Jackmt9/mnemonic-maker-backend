@@ -1,0 +1,2 @@
+class AddYoutubeIDtoBookmark < ApplicationRecord
+end

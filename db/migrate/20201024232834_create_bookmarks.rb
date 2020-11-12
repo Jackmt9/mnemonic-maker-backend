@@ -5,6 +5,7 @@ class CreateBookmarks < ActiveRecord::Migration[6.0]
       t.belongs_to :song, null: false, foreign_key: true
       t.string :input_phrase
       t.string :matching_phrase
+      t.integer :youtube_id
 
       t.timestamps
     end

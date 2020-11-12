@@ -21,6 +21,7 @@ class ArtistsController < ApplicationController
         else
             order = false
         end 
+        
         current_song_index = params[:current_song_index].to_i
         match_info = Artist.match_to_lyrics(params[:query], current_song_index, artist_id, order)
         render json: match_info

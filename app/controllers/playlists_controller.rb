@@ -3,10 +3,8 @@ class PlaylistsController < ApplicationController
 
 
     def create
-        # byebug
         @playlist = Playlist.create(title: playlist_params["title"], description: playlist_params["description"], user: @user)
         if @playlist.valid?
-            print 'yeah boiiii'
             render json: {
                 message: "Playlist created."
             }
@@ -21,23 +19,22 @@ class PlaylistsController < ApplicationController
         render json: @user.playlists.all 
     end
 
-    def show
-        begin 
-            @playlist = @user.playlists.find(params[:id])
-            # if @playlist.valid?
-                render json: { playlist: {
-                    id: @playlist.id,
-                    title: @playlist.title,
-                    bookmarks: @playlist.bookmarks
-        }
-            }
-            # end
-        rescue
-            render json: {
-                message: "Unable to find playlist."
-            }
-        end
-    end
+    # def show
+    #     begin 
+    #         @playlist = @user.playlists.find(params[:id])
+    #             render json: { 
+    #                 playlist: {
+    #                     id: @playlist.id,
+    #                     title: @playlist.title,
+    #                     bookmarks: @playlist.bookmarks
+    #                 }
+    #             }
+    #     rescue
+    #         render json: {
+    #             message: "Unable to find playlist."
+    #         }
+    #     end
+    # end
 
     private
   
