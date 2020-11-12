@@ -1,2 +1,0 @@
-class AddYoutubeIDtoBookmarksController < ApplicationController
-end
