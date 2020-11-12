@@ -21,11 +21,8 @@ class ArtistsController < ApplicationController
         else
             order = false
         end 
-
-        full_query = params[:query]
-        initials = Artist.get_initials(params[:query])
         current_song_index = params[:current_song_index].to_i
-        match_info = Artist.match_to_lyrics(initials, current_song_index, artist_id, order, full_query)
+        match_info = Artist.match_to_lyrics(params[:query], current_song_index, artist_id, order)
         render json: match_info
     end
 end
