@@ -21,7 +21,7 @@ class UsersController < ApplicationController
       @user = User.find_by(email: params[:email])
       if @user && @user.authenticate(params[:password])
         wristband = encode_token({user_id: @user.id})
-        playlists = @user.playlists
+        playlists = Playlist.get_playlists_with_bookmarks(@user)
 
         render json: {
           user: {id: @user.id, first_name: @user.first_name, last_name: @user.last_name, email: @user.email, playlists: playlists},
@@ -37,12 +37,8 @@ class UsersController < ApplicationController
     def stay_logged_in
       # @user comes from the before_action
       wristband = encode_token({user_id: @user.id})
-      playlists = @user.playlists
-      playlists = playlists.map do |playlist|
-        byebug
-        playlist = playlist.attributes
-        playlist["bookmarks"] = playlist.bookmarks
-      end
+
+      playlists = Playlist.get_playlists_with_bookmarks(@user)
 
       render json: {
         user: {id: @user.id, first_name: @user.first_name, last_name: @user.last_name, email: @user.email, playlists: playlists},
