@@ -133,6 +133,8 @@ class LyricSnippet < ApplicationRecord
                 if(!SnippetTank.find_by(id: length))
                   SnippetTank.create(id: length)
                 end
+                #might not have to seed songs totally
+                #maybe include 
                 sorted_initials = initials.split('').sort().join('')
                 new_lyric = LyricSnippet.create(snippet: line, snippet_tank_id: length, song: song, initials: initials, sorted_initials: sorted_initials) 
                 print "creating new lyric snippet! #{new_lyric.snippet} with length: #{length} and a tank id of #{new_lyric.snippet_tank_id}"
@@ -153,7 +155,7 @@ class LyricSnippet < ApplicationRecord
   current_snippet = money_lyric_snippets[current_snippet_index]
   song = Song.find(current_snippet.song_id)
   youtube_id = Song.get_youtube_id(song['full_title'])
-   song_url = song['url']
+  song_url = song['url']
   lyrics = Song.get_lyrics(song_url)
   song = song.attributes
   song['youtube_id'] = youtube_id 
