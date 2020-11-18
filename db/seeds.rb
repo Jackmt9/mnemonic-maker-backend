@@ -3,9 +3,9 @@
 
 # Artist.seed_billboard
 
-LyricSnippet.seed_lyric_snippets
+# LyricSnippet.seed_lyric_snippets
 
-# Artist.seed_artist_and_songs("Wiz Khalifa", "Hip-hop")
+Artist.seed_artist_and_songs("50 Cent", "Hip-hop")
 # SnippetTank.seed_the_tank
 # LyricSnippet.seed_sorted_initials
 

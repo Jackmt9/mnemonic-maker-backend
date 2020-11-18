@@ -16,90 +16,88 @@ class LyricSnippet < ApplicationRecord
    }
 
    def self.new_song_new_snippets(song, lyrics)
+    # byebug
     previous_line = ''
       lyrics.each_line do |line|
-        print "this line"
         print line
         line_array = line.split(' ')
-        print line[0]
-        length = line_array.length
-        if length == 0 
-          next
-        end
-                  if LyricSnippet.find_by(snippet: line)
-                    print "we already have that snippet, homie-------"
+                if LyricSnippet.find_by(snippet: line)
+                  print "we already have that snippet, homie-------"
+                else
+                          if line_array.length < 2
+                            next
+                          end
+                          if line_array[0][0] == '['
+                            next
+                          end
+                          initials = ''
+                          line_array.each do |word|
+                            letter_index = 0 
+                            if word[0] == "(" && !!word[1]
+                              if word[1] == "'" && !!word[2]
+                                initials += word[2].downcase
+                              else
+                                initials += word[1].downcase
+                              end
+                            elsif @numHash[word[0]]
+                              initials += @numHash[word[0]]  
+                            else
+                              initials += word[0].downcase
+                            end
+                          end
+                          length = line_array.length 
+                          sorted_initials = initials.split('').sort().join('')
+                          new_snippet = LyricSnippet.create(snippet: line, snippet_tank_id: length, song: song, initials: initials, sorted_initials: sorted_initials)     
                   end
-                  if !LyricSnippet.find_by(snippet: line)
-                              if line_array[0][0] == '['
-                                next
-                              end
-                              initials = ''
-                              line_array.each do |word|
-                                letter_index = 0 
-                                    if word[0] == "(" && !!word[1]
-                                          if word[1] == "'" && !!word[2]
-                                        initials += word[2].downcase
-                                          else
-                                            initials += word[1].downcase
-                                          end
-                                    elsif @numHash[word[0]]
-                                      initials += @numHash[word[0]]  
-                                    else
-                                    initials += word[0].downcase
-                                    end
-                              end
-                    sorted_initials = initials.split('').sort().join('')
-                    new_snippet = LyricSnippet.create(snippet: line, snippet_tank_id: length, song: song, initials: initials, sorted_initials: sorted_initials)     
-                  
                   #now that the regular snippet is created, let's create a new snippet combining this snippet with the previous one
-                  # double_line = line.concat(previous_line)
-                  # double_line_array = double_line.split(' ')
-                  # if !LyricSnippet.find_by(snippet: double_line) && double_line_array.length < 15
-                  #   double_line_initials = ""
-                  #     double_line_array.each do |word|
-                  #           letter_index = 0 
-                  #             if word[0] == "(" && !!word[1]
-                  #                   if word[1] == "'" && !!word[2]
-                  #                 double_line_initials += word[2].downcase
-                  #                   else
-                  #                     double_line_initials += word[1].downcase
-                  #                   end
-                  #             elsif @numHash[word[0]]
-                  #               double_line_initials += @numHash[word[0]]  
-                  #             else
-                  #             double_line_initials += word[0].downcase
-                  #             end
-                  #     end
-                  #       sorted_double_line_initials = double_line_initials.split('').sort().join('')
-                  #     new_double_snippet = LyricSnippet.create(snippet: double_line, snippet_tank_id: length, song: song, initials: double_line_initials, sorted_initials: sorted_double_line_initials) 
-                  # end
-                  # previous_line = line
+                  double_line = line.concat(previous_line)
+                  double_line_array = double_line.split(' ')
+                  if !LyricSnippet.find_by(snippet: double_line) && double_line_array.length < 15
+                    double_line_initials = ""
+                      double_line_array.each do |word|
+                            letter_index = 0 
+                              if word[0] == "(" && !!word[1]
+                                    if word[1] == "'" && !!word[2]
+                                  double_line_initials += word[2].downcase
+                                    else
+                                      double_line_initials += word[1].downcase
+                                    end
+                              elsif @numHash[word[0]]
+                                double_line_initials += @numHash[word[0]]  
+                              else
+                              double_line_initials += word[0].downcase
+                              end
+                      end
+                      print "double line! " + double_line
+                        sorted_double_line_initials = double_line_initials.split('').sort().join('')
+                      new_double_snippet = LyricSnippet.create(snippet: double_line, snippet_tank_id: length, song: song, initials: double_line_initials, sorted_initials: sorted_double_line_initials) 
+                  end
+                  previous_line = line
                   #set the previous line for the next double_line_snippet
 
                   #now let's get the fragments of the snippets and use those
-                  # if line.split(',').length > 1
-                  #   line.split(',').each do |fragment|
-                  #     fragment_initials = ''
-                  #     fragment.each do |word|
-                  #           letter_index = 0 
-                  #             if word[0] == "(" && !!word[1]
-                  #                   if word[1] == "'" && !!word[2]
-                  #                 fragment_initials += word[2].downcase
-                  #                   else
-                  #                     fragment_initials += word[1].downcase
-                  #                   end
-                  #             elsif @numHash[word[0]]
-                  #               fragment_initials += @numHash[word[0]]  
-                  #             else
-                  #             fragment_initials += word[0].downcase
-                  #             end
-                  #         end
-                  #     sorted_fragment_initials = fragment_initials.split('').sort().join('')
-                  #     new_fragment = LyricSnippet.create(snippet: fragment, snippet_tank_id: length, song: song, initials: fragment_initials, sorted_initials: sorted_fragment_initials) 
-                  #   end
-                  # end
-                  byebug
-                end
+                  if line.split(',').length > 1
+                    line.split(',').each do |fragment|
+                      fragment_initials = ''
+                      fragment.split(' ').each do |word|
+                            letter_index = 0 
+                              if word[0] == "(" && !!word[1]
+                                    if word[1] == "'" && !!word[2]
+                                  fragment_initials += word[2].downcase
+                                    else
+                                      fragment_initials += word[1].downcase
+                                    end
+                              elsif @numHash[word[0]]
+                                fragment_initials += @numHash[word[0]]  
+                              else
+                              fragment_initials += word[0].downcase
+                              end
+                          end
+                          print "Fragment " + fragment
+                      sorted_fragment_initials = fragment_initials.split('').sort().join('')
+                      new_fragment = LyricSnippet.create(snippet: fragment, snippet_tank_id: length, song: song, initials: fragment_initials, sorted_initials: sorted_fragment_initials) 
+                    end
+                  end
                   print "created new lyric snippets!"
         end
     end

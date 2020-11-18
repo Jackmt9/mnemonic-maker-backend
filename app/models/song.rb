@@ -28,8 +28,8 @@ class Song < ApplicationRecord
                     puts "Seeding #{song['title']}..."
                     song_url = song['url']
                     lyrics = self.get_lyrics(song_url)
-                    LyricSnippet.new_song_new_snippets(song, lyrics)
-                Song.create(full_title: song['full_title'], artist_id: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
+                   new_song = Song.create(full_title: song['full_title'], artist_id: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
+                    LyricSnippet.new_song_new_snippets(new_song, lyrics)
                 rescue
                     puts "rescued!"
                     next
