@@ -7,7 +7,7 @@ class Artist < ApplicationRecord
       return true
     end
     artist = self.create_artist(artist_name, genre)
-    if artist == "already have that artist"
+    if artist == "already have that artist" || artist == "artist not available"
       return true
     end
     puts "Searching for songs by #{artist_name}..."
@@ -15,14 +15,18 @@ class Artist < ApplicationRecord
   end
 
   def self.create_artist(artist_name, genre)
-    response = RestClient.get("#{@@base_genius_uri}/search?q=#{artist_name}&access_token=#{ENV['GENIUS_API_KEY']}")
-    response = JSON.parse(response)
-    artist_id = response["response"]["hits"][0]["result"]["primary_artist"]["id"]
-    artist_name = response["response"]["hits"][0]["result"]["primary_artist"]["name"]
-    if Artist.find_by(name: artist_name)
+    begin
+      response = RestClient.get("#{@@base_genius_uri}/search?q=#{artist_name}&access_token=#{ENV['GENIUS_API_KEY']}")
+      response = JSON.parse(response)
+      artist_id = response["response"]["hits"][0]["result"]["primary_artist"]["id"]
+      artist_name = response["response"]["hits"][0]["result"]["primary_artist"]["name"]
+      if Artist.find_by(name: artist_name)
+        return "artist not available"
+      end
+      Artist.create(name: artist_name, id: artist_id, genre: genre)
+    rescue => exception
       return "already have that artist"
     end
-    Artist.create(name: artist_name, id: artist_id, genre: genre)
   end
 
   def self.make_initials_hash(initials_array)
@@ -134,6 +138,25 @@ end
         end
         # response = JSON.parse(response)
       end
+  end
+
+  def self.seed_top_selling_artists
+    page_url = 'https://en.wikipedia.org/wiki/List_of_best-selling_music_artists'
+      page = Nokogiri::HTML(open(page_url))
+      i = 2
+      while i < 250 do 
+        artist_name = page.css('tr')[i].to_s.split('title')[1].split('">')[0][2..-1]
+        
+        if page.css('tr')[4].to_s.split('/wiki/')[2]
+          genre = page.css('tr')[i].to_s.split('/wiki/')[2].split("title")[1].split('</a>')[0].split('>')[1]
+        else 
+          genre = 'any'
+        end
+        if artist_name.class == String 
+          self.seed_artist_and_songs(artist_name, genre)
+        end
+      i+= 1
+     end
   end
 
 end

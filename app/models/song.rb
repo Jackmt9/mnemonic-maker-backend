@@ -23,12 +23,13 @@ class Song < ApplicationRecord
             #     next
             # end
             print "song id is #{song["id"]} "
-            if !Song.find_by(id: song["id"])
+            if !Song.find_by(full_title: song["full_title"])
                 begin
-                puts "Seeding #{song['title']}..."
-                song_url = song['url']
-                lyrics = self.get_lyrics(song_url)
-                Song.create(full_title: song['full_title'], lyrics: lyrics, artist_id: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
+                    puts "Seeding #{song['title']}..."
+                    song_url = song['url']
+                    lyrics = self.get_lyrics(song_url)
+                    LyricSnippet.new_song_new_snippets(song, lyrics)
+                Song.create(full_title: song['full_title'], artist_id: artist_id, url: song['url'], image: song["song_art_image_url"], title: song['title'])
                 rescue
                     puts "rescued!"
                     next
