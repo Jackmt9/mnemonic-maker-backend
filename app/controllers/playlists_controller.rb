@@ -16,7 +16,8 @@ class PlaylistsController < ApplicationController
     end
 
     def index
-        render json: @user.playlists.all 
+        render json: @user.playlists.all
+        
     end
 
     # def show

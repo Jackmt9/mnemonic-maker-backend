@@ -19,8 +19,9 @@ class Playlist < ApplicationRecord
             flat_playlist = playlist.attributes
             flat_playlist[:bookmarks] = playlist.bookmarks
             playlists_with_bookmarks << flat_playlist
-        end
+        end 
         return playlists_with_bookmarks
     end
+
 
 end
