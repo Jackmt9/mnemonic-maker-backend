@@ -16,6 +16,10 @@ class BookmarksController < ApplicationController
         render json: { bookmarks: @user.bookmarks }
     end
     
+    def destroy
+        Bookmark.find(params[:id]).destroy()
+    end
+    
     private
   
     def bookmark_params

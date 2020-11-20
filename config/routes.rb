@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  resources :bookmarks, only: [:create]
+  resources :bookmarks, only: [:create, :destroy]
   resources :playlists, only: [:create, :index]
   resources :songs, only: [:show]
 
@@ -9,8 +9,7 @@ Rails.application.routes.draw do
   get '/stay_logged_in', to: 'users#stay_logged_in'
   # post '/stay_logged_in', to: 'users#stay_logged_in'
   post '/login', to: 'users#login'
-
-  #retrieves youtube url based on song id
+    #retrieves youtube url based on song id
   resources :users, only: [:create]
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
