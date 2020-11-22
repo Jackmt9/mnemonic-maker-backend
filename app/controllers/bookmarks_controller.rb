@@ -1,5 +1,5 @@
 class BookmarksController < ApplicationController
-    before_action :authorized, only: [:create, :index]
+    before_action :authorized, only: [:create, :index, :destroy]
 
     def create
         

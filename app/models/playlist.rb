@@ -23,5 +23,6 @@ class Playlist < ApplicationRecord
         return playlists_with_bookmarks
     end
 
+        
 
 end
