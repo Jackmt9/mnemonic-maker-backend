@@ -1,13 +1,11 @@
 class PlaylistsController < ApplicationController
-    before_action :authorized, only: [:create, :index, :show]
+    before_action :authorized, only: [:create, :index, :show, :update, :destroy]
 
 
     def create
-        @playlist = Playlist.create(title: playlist_params["title"], description: playlist_params["description"], user: @user)
-        if @playlist.valid?
-            render json: {
-                message: "Playlist created."
-            }
+        playlist = Playlist.create(title: playlist_params["title"], description: playlist_params["description"], user: @user)
+        if playlist.valid?
+            render json: playlist
         else
             render json: {
                 message: "Failed to create new playlist."
@@ -20,6 +18,17 @@ class PlaylistsController < ApplicationController
         
     end
 
+    def update
+        playlist = Playlist.find(params[:playlist_id])
+        playlist.update(title: params[:playlist_params]["title"], description: params[:playlist_params]["description"])
+        render json: playlist
+    end
+
+    def destroy
+        playlist = Playlist.find(params[:id]).destroy()
+        render json: playlist
+
+    end
     # def show
     #     begin 
     #         @playlist = @user.playlists.find(params[:id])

@@ -1,6 +1,6 @@
 class Playlist < ApplicationRecord
   belongs_to :user
-  has_many :bookmarks
+  has_many :bookmarks, dependent: :delete_all
   
     def self.create_favorites(user_id)
          @playlist = Playlist.create(title: "Favorites", user_id: user_id)
@@ -23,5 +23,6 @@ class Playlist < ApplicationRecord
         return playlists_with_bookmarks
     end
 
+        
 
 end
