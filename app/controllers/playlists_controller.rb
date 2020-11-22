@@ -3,11 +3,9 @@ class PlaylistsController < ApplicationController
 
 
     def create
-        @playlist = Playlist.create(title: playlist_params["title"], description: playlist_params["description"], user: @user)
-        if @playlist.valid?
-            render json: {
-                message: "Playlist created."
-            }
+        playlist = Playlist.create(title: playlist_params["title"], description: playlist_params["description"], user: @user)
+        if playlist.valid?
+            render json: playlist
         else
             render json: {
                 message: "Failed to create new playlist."
@@ -29,6 +27,7 @@ class PlaylistsController < ApplicationController
     def destroy
         playlist = Playlist.find(params[:id]).destroy()
         render json: playlist
+
     end
     # def show
     #     begin 
