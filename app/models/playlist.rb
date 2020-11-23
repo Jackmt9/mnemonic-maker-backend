@@ -18,11 +18,23 @@ class Playlist < ApplicationRecord
         playlists.each do |playlist|
             flat_playlist = playlist.attributes
             flat_playlist[:bookmarks] = playlist.bookmarks
+            bookmarks = self.add_song_title_to_bookmarks(flat_playlist)
+            flat_playlist[:bookmarks] = bookmarks
             playlists_with_bookmarks << flat_playlist
         end 
         return playlists_with_bookmarks
     end
 
+    def self.add_song_title_to_bookmarks(playlist)
+        new_bookmarks = []
+        playlist[:bookmarks].each do |bookmark| 
+            song_title = Song.find(bookmark.song_id).full_title
+            new_bookmark = bookmark.attributes
+            new_bookmark[:full_title] = song_title
+            new_bookmarks << new_bookmark
+        end
+        return new_bookmarks
+    end
         
 
 end
