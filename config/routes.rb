@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :bookmarks, only: [:create, :destroy]
   resources :playlists, only: [:create, :index, :update, :destroy]
   resources :songs, only: [:show]
+  resources :artists, only: [:index]
 
   resources :users, only: [:create]
 

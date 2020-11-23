@@ -10,6 +10,7 @@ playlists.each do |title|
     playlist = Playlist.create(title: title, user: user)
     puts "Playlist #{title} created"
 
+
     # Populate playlists with bookmarks here
 end
 
