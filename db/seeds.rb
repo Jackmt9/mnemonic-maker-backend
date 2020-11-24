@@ -1,4 +1,4 @@
-artists = ['The Beatles', 'Eric Clapton']
+artists = ['The Beatles', 'Eric Clapton', "Eminem"]
 Artist.seed_artist_and_songs(artists)
 
 puts "Creating User --- email: admin@gmail.com, password: admin"
