@@ -38,7 +38,7 @@ To start the backend server:
 | DELETE | /bookmarks/:id                                                | {bookmark: {...}}                                                           |                                              |   |
 | POST   | /playlists                                                    | {playlist: {...}}                                                           | {message:  "Failed to create new playlist."} |   |
 | GET    | /playlists                                                    | {playlists: [{},{},...]}                                                    |                                              |   |
-| PUT    | /playlists/:id                                                | {playlists: {...}}                                                          |                                              |   |
+| PUT    | /playlists/:id                                                | {playlist: {...}}                                                          |                                              |   |
 | DELETE | /playlists/:id                                                | {playlist: {...}}                                                           |                                              |   |
 | GET    | /songs/:id                                                    | {song: {...}}                                                               |                                              |   |
 | GET    | /artists                                                      | {artists: [{},{},...]}                                                      |                                              |   |
