@@ -28,8 +28,9 @@ To start the backend server:
 5. Migrate to set up your database schema by running ```$ rails db:migrate```.
 6. Register and receive an authorization token from [Genius](https://docs.genius.com/).
 7. Add a ```.env``` file in the root directory that contains ```GENIUS_API_KEY=<YOUR_GENIUS_AUTHORIZATION_TOKEN>```.
-8. Run ```$ rails server``` to start your server. 
-9. Open your browser and navigate to http://localhost:3001/ to access the backend routes or follow the [frontend README](https://github.com/Jackmt9/mnemonic-maker-frontend/blob/master/README.md).
+8. Run ```rails db:seed``` to seed song data to database.
+9. Run ```$ rails server``` to start your server. 
+10. Open your browser and navigate to http://localhost:3001/ to access the backend routes or follow the [frontend README](https://github.com/Jackmt9/mnemonic-maker-frontend/blob/master/README.md).
 
 ### ROUTES
 | HTTP   | PATH                                                          | IF VALID                                                                    | IF INVALID                                   |   |
