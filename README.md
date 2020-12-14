@@ -2,6 +2,8 @@
 This project is designed to create [acrostic mnemonic devices](https://citeseerx.ist.psu.edu/viewdoc/download?doi=10.1.1.898.2352&rep=rep1&type=pdf) using song lyrics to help users better remember things.
 
 ### Table of Contents
+- [Demo](#demo)
+
 - [Features](#features)
 
 - [Getting Started](#getting-started)
@@ -11,6 +13,9 @@ This project is designed to create [acrostic mnemonic devices](https://citeseerx
 - [Tools](#tools)
 
 - [Project Layout](#project-layout)
+
+### Demo
+Please visit [here](https://mnemonicmaker.netlify.app/) to view the publicly deployed netlify demo.
 
 ### Features
 - Implements web scraping and seeds data
